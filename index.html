@@ -1,0 +1,196 @@
+<button class="newBook-btn">New Book</button>
+<br><br>
+<div class='myForm'>
+    <p class="tBox"></p>
+    <p class="aBox"></p>
+    <p class="pBox"></p>
+    <p class="submitBtn"></p>
+</div>
+<br>
+<div class="books"></div>
+
+
+<style>
+    .card {
+        min-height: 185px;
+        width: 120px;
+        border-radius: 5px;
+        padding: 5px;
+        text-align: center;
+        word-break: break-all;
+        background-color: beige;
+        border: 1px solid black;
+        box-shadow: 1px 1px 1px;
+        margin-right: 15px;
+    }
+
+    .books {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-gap: 2rem;
+        padding: 2rem;
+    }
+
+    .myForm {
+        height: 170px;
+        width: 210px;
+        padding: 5px;
+    }
+
+    .title,
+    .author,
+    .pages {
+        border: 1px solid grey;
+        box-shadow: 1px 1px;
+    }
+
+    .newBook-btn {
+        background-color: beige;
+        border: 1px solid black;
+        border-radius: 5px;
+        cursor: pointer;
+        box-shadow: 1px 1px;
+    }
+
+    label {
+        font-size: 12px;
+        font-family: verdana;
+    }
+
+    .removeButton {
+        font-family: "courier new";
+        font-weight: bold;
+        background-color: lightgreen;
+        border: 1px solid black;
+        border-radius: 5px;
+        box-shadow: 1px 1px;
+        cursor: pointer;
+    }
+
+    .tD {
+        word-wrap: break-word;
+        font-weight: bolder;
+    }
+</style>
+
+<script>
+    let library = [];
+
+    let nbBtn = document.querySelector(".newBook-btn");
+
+    let c = 0;
+
+    nbBtn.addEventListener('click', () => {
+        if (c == 0) {
+            displayForm();
+        }
+        c++;
+        if (c > 0) {
+            resetForm();
+        }
+    });
+
+    //creating form
+
+    let t = document.createElement("input");
+    let a = document.createElement("input");
+    let p = document.createElement("input");
+    let sBtn = document.createElement("button");
+
+    t.classList = "title";
+    a.classList = "author";
+    p.classList = "pages";
+
+    t.type = "text";
+    t.maxLength = "50";
+    a.type = "text";
+    a.maxLength = "30"
+    p.type = "number";
+
+    sBtn.addEventListener('click', () => {
+        submitForm();
+        displayCards();
+    });
+
+    //appending form
+    let form = document.querySelector(".myForm");
+
+    function displayForm() {
+        form.style.border = "1px solid grey";
+        form.style.boxShadow = "1px 1px";
+        document.querySelector(".tBox").textContent = "Title: ";
+        document.querySelector(".tBox").appendChild(t);
+        document.querySelector(".aBox").textContent = "Author: ";
+        document.querySelector(".aBox").appendChild(a);
+        document.querySelector(".pBox").textContent = "Pages: ";
+        document.querySelector(".pBox").appendChild(p);
+        sBtn.textContent = "Submit";
+        document.querySelector(".submitBtn").appendChild(sBtn);
+        sBtn.style.backgroundColor = "beige";
+        sBtn.style.border = "1px solid black";
+        sBtn.style.borderRadius = "5px";
+        sBtn.style.boxShadow = "1px 1px 1px";
+        sBtn.style.cursor = "pointer";
+        sBtn.classList = "sBtn";
+    }
+
+    function submitForm() {
+        library.push(t.value, a.value, p.value);
+    }
+
+    function resetForm() {
+        t.value = "";
+        a.value = "";
+        p.value = "";
+    }
+
+    function displayCards() {
+
+        let card = document.createElement("div");
+        card.classList.add("card");
+        let tD = document.createElement('p');
+        tD.classList.add("tD");
+        let aD = document.createElement('p');
+        aD.classList.add("aD");
+        let pD = document.createElement('p');
+        pD.classList.add("pD");
+        let rD = document.createElement('p');
+
+        let readButton = document.createElement("input");
+        let readingButton = document.createElement("input");
+        readButton.classList.add("readButton");
+        readingButton.classList.add("readingButton");
+        let removeButton = document.createElement("button");
+        removeButton.classList.add("removeButton");
+        let label1 = document.createElement("label");
+        let label2 = document.createElement("label");
+
+        readButton.type = "radio";
+        readButton.name = "radioButtons";
+        readingButton.type = "radio";
+        readingButton.name = "radioButtons";
+        removeButton.textContent = "Remove";
+        label1.textContent = "Read";
+        label2.textContent = "Reading";
+        tD.textContent = t.value;
+        aD.textContent = "by " + a.value;
+        pD.textContent = p.value + " pages";
+
+        rD.appendChild(removeButton);
+        card.appendChild(tD);
+        card.appendChild(aD);
+        card.appendChild(pD);
+        card.appendChild(readButton);
+        card.appendChild(label1);
+        card.appendChild(readingButton);
+        card.appendChild(label2);
+        card.appendChild(rD);
+
+        let books = document.querySelector('.books');
+        books.appendChild(card);
+
+        removeButton.addEventListener("click", () => {
+            books.removeChild(card);
+        });
+    }
+</script>
